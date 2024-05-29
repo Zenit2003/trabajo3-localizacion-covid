@@ -13,7 +13,7 @@ public class ListaContactos {
 	 * en un instante 
 	 */
 	public void insertarNodoTemporal(PosicionPersona p) {
-		// Busca la posición adecuada donde insertar el nodo temporal
+		// Busca la posición adecuada donde insertar el nodo temporal (a)
 		NodoTemporal aux = buscarPosicionAdecuada(p);
 
 		// Si no se encontró una posición adecuada, inserta un nuevo nodo temporal
