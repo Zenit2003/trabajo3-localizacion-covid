@@ -226,32 +226,28 @@ public class ContactosCovid {
 		return persona;
 	}
 
-	private PosicionPersona crearPosicionPersona(String[] data) {
+	public PosicionPersona crearPosicionPersona(String[] data) {
 		PosicionPersona posicionPersona = new PosicionPersona();
-		String fecha = null, hora;
-		float latitud = 0, longitud;
+		String[] fechaHora = new String[1]; // Utilizamos un array para poder modificar su contenido en la lambda
+		float[] latitud = new float[1];     // Utilizamos un array para poder modificar su contenido en la lambda
+
+		// Mapa que asocia un índice con una acción específica sobre PosicionPersona
+		Map<Integer, BiConsumer<String, PosicionPersona>> actions = new HashMap<>();
+
+		actions.put(1, (s, p) -> p.setDocumento(s));
+		actions.put(2, (s, p) -> fechaHora[0] = s);
+		actions.put(3, (s, p) -> p.setFechaPosicion(parsearFecha(fechaHora[0], s)));
+		actions.put(4, (s, p) -> latitud[0] = Float.parseFloat(s));
+		actions.put(5, (s, p) -> p.setCoordenada(new Coordenada(latitud[0], Float.parseFloat(s))));
+
 		for (int i = 1; i < Constantes.MAX_DATOS_LOCALIZACION; i++) {
 			String s = data[i];
-			switch (i) {
-			case 1:
-				posicionPersona.setDocumento(s);
-				break;
-			case 2:
-				fecha = data[i];
-				break;
-			case 3:
-				hora = data[i];
-				posicionPersona.setFechaPosicion(parsearFecha(fecha, hora));
-				break;
-			case 4:
-				latitud = Float.parseFloat(s);
-				break;
-			case 5:
-				longitud = Float.parseFloat(s);
-				posicionPersona.setCoordenada(new Coordenada(latitud, longitud));
-				break;
+			BiConsumer<String, PosicionPersona> action = actions.get(i);
+			if (action != null) {
+				action.accept(s, posicionPersona);
 			}
 		}
+
 		return posicionPersona;
 	}
 	
