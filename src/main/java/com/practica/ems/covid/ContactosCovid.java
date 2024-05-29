@@ -4,9 +4,8 @@ package com.practica.ems.covid;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.function.BiConsumer;
 
 import com.practica.excecption.EmsDuplicateLocationException;
 import com.practica.excecption.EmsDuplicatePersonException;
@@ -209,30 +208,22 @@ public class ContactosCovid {
 
 	private Persona crearPersona(String[] data) {
 		Persona persona = new Persona();
+		// Mapa que asocia un índice con una acción específica sobre Persona
+		Map<Integer, BiConsumer<Persona, String>> actions = new HashMap<>();
+
+		actions.put(1, (p, s) -> p.setDocumento(s));     // Define la acción para índice 1
+		actions.put(2, (p, s) -> p.setNombre(s));        // Define la acción para índice 2
+		actions.put(3, (p, s) -> p.setApellidos(s));     // Define la acción para índice 3
+		actions.put(4, (p, s) -> p.setEmail(s));         // Define la acción para índice 4
+		actions.put(5, (p, s) -> p.setDireccion(s));     // Define la acción para índice 5
+		actions.put(6, (p, s) -> p.setCp(s));            // Define la acción para índice 6
+		actions.put(7, (p, s) -> p.setFechaNacimiento(parsearFecha(s))); // Define la acción para índice 7
+
 		for (int i = 1; i < Constantes.MAX_DATOS_PERSONA; i++) {
 			String s = data[i];
-			switch (i) {
-			case 1:
-				persona.setDocumento(s);
-				break;
-			case 2:
-				persona.setNombre(s);
-				break;
-			case 3:
-				persona.setApellidos(s);
-				break;
-			case 4:
-				persona.setEmail(s);
-				break;
-			case 5:
-				persona.setDireccion(s);
-				break;
-			case 6:
-				persona.setCp(s);
-				break;
-			case 7:
-				persona.setFechaNacimiento(parsearFecha(s));
-				break;
+			BiConsumer<Persona, String> action = actions.get(i); // Obtiene la acción para el índice actual
+			if (action != null) {
+				action.accept(persona, s); // Ejecuta la acción
 			}
 		}
 		return persona;
