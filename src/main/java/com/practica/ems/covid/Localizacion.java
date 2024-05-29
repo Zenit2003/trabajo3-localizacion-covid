@@ -9,6 +9,8 @@ import com.practica.excecption.EmsLocalizationNotFoundException;
 import com.practica.genericas.FechaHora;
 import com.practica.genericas.PosicionPersona;
 
+import com.practica.ems.covid.ContactosCovid;
+
 public class Localizacion {
 	LinkedList<PosicionPersona> lista;
 
@@ -100,27 +102,11 @@ public class Localizacion {
 	
 	@SuppressWarnings("unused")
 	private FechaHora parsearFecha (String fecha) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, 0, 0);
-		return fechaHora;
+		return ContactosCovid.getFechaHora(fecha);
 	}
-	
+
 	private  FechaHora parsearFecha (String fecha, String hora) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		int minuto, segundo;
-		valores = hora.split("\\:");
-		minuto = Integer.parseInt(valores[0]);
-		segundo = Integer.parseInt(valores[1]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, minuto, segundo);
-		return fechaHora;
+		return ContactosCovid.getFechaHora(fecha, hora);
 	}
-	
+
 }
