@@ -35,7 +35,7 @@ public class ListaContactos {
 		insertarCoordenadaEnLista(p, nuevo);
 		this.size++;
 	}
-	
+
 	// Busca la posición adecuada para insertar el nodo temporal
 	private NodoTemporal buscarPosicionAdecuada(PosicionPersona p) {
 		NodoTemporal aux = lista;
