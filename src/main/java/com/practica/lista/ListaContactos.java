@@ -6,11 +6,11 @@ import com.practica.genericas.PosicionPersona;
 public class ListaContactos {
 	private NodoTemporal lista;
 	private int size;
-	
+
 	/**
-	 * Insertamos en la lista de nodos temporales, y a la vez inserto en la lista de nodos de coordenadas. 
-	 * En la lista de coordenadas metemos el documento de la persona que está en esa coordenada 
-	 * en un instante 
+	 * Insertamos en la lista de nodos temporales, y a la vez inserto en la lista de nodos de coordenadas.
+	 * En la lista de coordenadas metemos el documento de la persona que está en esa coordenada
+	 * en un instante
 	 */
 	public void insertarNodoTemporal(PosicionPersona p) {
 		// Busca la posición adecuada donde insertar el nodo temporal (a)
@@ -25,6 +25,17 @@ public class ListaContactos {
 		}
 	}
 
+	// Inserta un nuevo nodo temporal en la lista
+
+	private void insertarNuevoNodoTemporal(PosicionPersona p) {
+		NodoTemporal nuevo = new NodoTemporal();
+		nuevo.setFecha(p.getFechaPosicion());
+		nuevo.setSiguiente(lista);
+		lista = nuevo;
+		insertarCoordenadaEnLista(p, nuevo);
+		this.size++;
+	}
+	
 	// Busca la posición adecuada para insertar el nodo temporal
 	private NodoTemporal buscarPosicionAdecuada(PosicionPersona p) {
 		NodoTemporal aux = lista;
@@ -36,16 +47,6 @@ public class ListaContactos {
 		}
 
 		return ant;
-	}
-
-	// Inserta un nuevo nodo temporal en la lista
-	private void insertarNuevoNodoTemporal(PosicionPersona p) {
-		NodoTemporal nuevo = new NodoTemporal();
-		nuevo.setFecha(p.getFechaPosicion());
-		nuevo.setSiguiente(lista);
-		lista = nuevo;
-		insertarCoordenadaEnLista(p, nuevo);
-		this.size++;
 	}
 
 	// Inserta una coordenada en la lista de coordenadas de un nodo temporal dado
